@@ -3,12 +3,6 @@ echo "Running composer"
 composer global require hirak/prestissimo
 composer install --no-dev --working-dir=/var/www/html
 
-echo "Publishing Swagger UI assets..."
-php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
-
-echo "Generating Swagger documentation..."
-php artisan l5-swagger:generate
-
 echo "Caching config..."
 php artisan config:cache
 
