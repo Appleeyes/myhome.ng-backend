@@ -1,0 +1,21 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "MyHome.NG",
+        "description": "The MyHome.ng project is a web application designed to streamline the process of finding, renting, and managing properties.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/placeholder": {
+            "get": {
+                "summary": "Placeholder endpoint",
+                "operationId": "4f1700675a67d1c8987c7eb81c0c552d",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        }
+    }
+}
