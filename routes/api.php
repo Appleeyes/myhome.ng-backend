@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/placeholder', [PlaceholderController::class, 'placeholder']);
+Route::get('/placeholder', [PlaceholderController::class, 'placeholder']);
