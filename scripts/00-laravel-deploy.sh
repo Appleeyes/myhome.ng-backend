@@ -26,3 +26,6 @@ php artisan cache:clear
 
 echo "Running migrations..."
 php artisan migrate --force
+
+echo "Installing Laravel Passport"
+php artisan passport:install --force
