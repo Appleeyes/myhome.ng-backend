@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\PlaceholderController;
+use App\Constants\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PlaceholderController;
+use App\Http\Controllers\Auth\TenantAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:api', 'role:' . Roles::TENANT])->prefix('v1')->group(function () {
+    // 
 });
 
-Route::get('/placeholder', [PlaceholderController::class, 'placeholder']);
+Route::prefix('v1')->group(function () {
+    Route::post('/tenant/register', [TenantAuthController::class, 'register']);
+    Route::post('/tenant/login', [TenantAuthController::class, 'login']);
+});
+
+Route::middleware(['auth:api', 'role:' . Roles::LANDLORD])->prefix('v1')->group(function () {
+    // 
+});
