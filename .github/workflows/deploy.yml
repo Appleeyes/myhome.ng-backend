@@ -53,7 +53,7 @@ jobs:
       run: php artisan passport:install --force
 
     - name: Run tests
-      run: vendor/bin/phpunit
+      run: ./vendor/bin/phpunit --configuration phpunit.xml
 
   deploy:
     needs: build
