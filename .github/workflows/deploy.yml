@@ -59,6 +59,9 @@ jobs:
         echo DB_USERNAME=root >> .env
         echo DB_PASSWORD=password >> .env
 
+    - name: Display .env file
+      run: cat .env
+
     - name: Run migrations
       run: php artisan migrate --force
       env:
