@@ -50,14 +50,14 @@ jobs:
         php artisan key:generate
         php artisan config:cache
 
-    - name: Set environment variables
+    - name: Set database environment variables
       run: |
-        echo DB_CONNECTION=mysql >> .env
-        echo DB_HOST=127.0.0.1 >> .env
-        echo DB_PORT=3306 >> .env
-        echo DB_DATABASE=test_db >> .env
-        echo DB_USERNAME=root >> .env
-        echo DB_PASSWORD=password >> .env
+        sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
+        sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+        sed -i 's/^DB_PORT=.*/DB_PORT=3306/' .env
+        sed -i 's/^DB_DATABASE=.*/DB_DATABASE=test_db/' .env
+        sed -i 's/^DB_USERNAME=.*/DB_USERNAME=root/' .env
+        sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
 
     - name: Display .env file
       run: cat .env
@@ -116,6 +116,15 @@ jobs:
         php artisan route:cache
         php artisan view:clear
         php artisan cache:clear
+
+    - name: Set database environment variables
+      run: |
+        sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
+        sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+        sed -i 's/^DB_PORT=.*/DB_PORT=3306/' .env
+        sed -i 's/^DB_DATABASE=.*/DB_DATABASE=test_db/' .env
+        sed -i 's/^DB_USERNAME=.*/DB_USERNAME=root/' .env
+        sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
 
     - name: Run migrations
       run: php artisan migrate --force
