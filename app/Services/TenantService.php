@@ -44,4 +44,32 @@ class TenantService
             'token' => $token,
         ];
     }
+
+    public function login(array $tenantData)
+    {
+        $validator = Validator::make($tenantData, [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return ['error' => $validator->errors()->first()];
+        }
+
+        $tenant = User::where('email', $tenantData['email'])->first();
+
+        if (!$tenant || !Hash::check($tenantData['password'], $tenant->password)) {
+            return [
+                'auth_error' => 'Authentication failed',
+                'errors' => ['Invalid credentials'],
+            ];
+        }
+
+        $token = $this->createToken($tenant);
+
+        return [
+            'tenant' => $tenant,
+            'token' => $token,
+        ];
+    }
 }
