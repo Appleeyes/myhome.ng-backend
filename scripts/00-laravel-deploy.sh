@@ -24,8 +24,11 @@ php artisan view:clear
 echo "Clearing application cache..."
 php artisan cache:clear
 
+echo "Testing database connection..."
+php artisan db:test-connection
+
 echo "Running migrations..."
 php artisan migrate --force
 
-echo "Installing Laravel Passport"
-php artisan passport:install --force
+# echo "Installing Laravel Passport"
+# php artisan passport:install --force
