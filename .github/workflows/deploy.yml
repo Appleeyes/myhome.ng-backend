@@ -60,49 +60,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
 
-      - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --no-dev
+    - name: Install Composer dependencies
+      run: composer install --no-progress --prefer-dist --no-dev
 
-      - name: Prepare Laravel application
-        run: |
-          cp .env.example .env
-          php artisan key:generate
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:clear
-          php artisan cache:clear
+    - name: Prepare Laravel application
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+        php artisan config:cache
+        php artisan route:cache
+        php artisan view:clear
+        php artisan cache:clear
 
-      - name: Set MySQL database credentials
-        run: |
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=${{ secrets.MYSQL_HOST }}" >> .env
-          echo "DB_PORT=${{ secrets.MYSQL_PORT }}" >> .env
-          echo "DB_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
-          echo "DB_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+    - name: Set database environment variables for SQLite
+      run: |
+        echo DB_CONNECTION=sqlite >> .env
+        echo DB_DATABASE=/tmp/database.sqlite >> .env
 
-      - name: Clear and cache Laravel configuration
-        run: php artisan config:clear && php artisan config:cache
+    - name: Create SQLite database file
+      run: touch /tmp/database.sqlite
 
-      - name: Run migrations
-        run: php artisan migrate --force
+    - name: Clear and cache Laravel configuration
+      run: php artisan config:clear && php artisan config:cache
 
-      - name: Install Laravel Passport (if needed)
-        run: php artisan passport:install --force
+    - name: Run migrations
+      run: php artisan migrate --force
 
-      - name: Deploy to Render
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-        run: |
-          curl -X POST "https://api.render.com/deploy/srv-your-service-id" \
-          -H "Authorization: Bearer $RENDER_API_KEY" \
-          -d ''
-          
+    - name: Install Laravel Passport
+      run: php artisan passport:install --force
+
+    - name: Deploy to Render
+      run: curl -X POST "https://api.render.com/deploy/srv-cpjjjt2cn0vc73an9qk0?key=pICb1553NBM" -d ''
+      
