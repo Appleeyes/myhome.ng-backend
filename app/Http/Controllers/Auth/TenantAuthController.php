@@ -26,8 +26,8 @@ class TenantAuthController extends Controller
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              @OA\Property(property="name", type="string", example="John"),
-     *              @OA\Property(property="email", type="string", example="Doe"),
+     *              @OA\Property(property="name", type="string", example="John Doe"),
+     *              @OA\Property(property="email", type="string", example="johndoe@example.com"),
      *              @OA\Property(property="phone_number", type="string", example="1234567890"),
      *              @OA\Property(property="password", type="string", example="password123"),
      *              @OA\Property(property="password_confirmation", type="string", example="password123"),
@@ -51,15 +51,6 @@ class TenantAuthController extends Controller
      *              @OA\Property(property="data", type="object", @OA\Property(property="errors", example="Validation failed")),
      *          ),
      *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Server error",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="Server error occurred. Please try again later."),
-     *              @OA\Property(property="data", type="object", @OA\Property(property="errors", example="Server error")),
-     *          ),
-     *      ),
      * )
      */
     public function register(Request $request)
@@ -67,13 +58,6 @@ class TenantAuthController extends Controller
         $result = $this->tenantService->register($request);
 
         if (isset($result['error'])) {
-            if ($result['error'] === 'Server error occurred. Please try again later.') {
-                return response()->json([
-                    'message' => 'Server error occurred. Please try again later.',
-                    'data' => ['errors' => $result['error']],
-                ], Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-
             return response()->json([
                 'message' => 'Validation failed',
                 'data' => ['errors' => $result['error']],
@@ -85,7 +69,6 @@ class TenantAuthController extends Controller
             'data' => $result,
         ], Response::HTTP_CREATED);
     }
-
 
     /**
      * @OA\Post(

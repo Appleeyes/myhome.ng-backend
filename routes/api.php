@@ -29,15 +29,3 @@ Route::prefix('v1')->group(function () {
 Route::middleware(['auth:api', 'role:' . Roles::LANDLORD])->prefix('v1')->group(function () {
     // 
 });
-
-Route::get('/db-config', function () {
-    return [
-        'DB_CONNECTION' => config('database.default'),
-        'DB_HOST' => config('database.connections.mysql.host'),
-        'DB_PORT' => config('database.connections.mysql.port'),
-        'DB_DATABASE' => config('database.connections.mysql.database'),
-        'DB_USERNAME' => config('database.connections.mysql.username'),
-        'DB_PASSWORD' => config('database.connections.mysql.password'),
-        'MYSQL_ATTR_SSL_CA' => config('database.connections.mysql.options.' . PDO::MYSQL_ATTR_SSL_CA)    
-    ];
-});

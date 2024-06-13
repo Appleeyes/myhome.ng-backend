@@ -22,11 +22,11 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John"
+                                        "example": "John Doe"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "example": "Doe"
+                                        "example": "johndoe@example.com"
                                     },
                                     "phone_number": {
                                         "type": "string",
