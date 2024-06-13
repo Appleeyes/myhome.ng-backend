@@ -38,6 +38,6 @@ Route::get('/db-config', function () {
         'DB_DATABASE' => config('database.connections.mysql.database'),
         'DB_USERNAME' => config('database.connections.mysql.username'),
         'DB_PASSWORD' => config('database.connections.mysql.password'),
-        'MYSQL_ATTR_SSL_CA' => config('database.connections.mysql.MYSQL_ATTR_SSL_CA')
+        'MYSQL_ATTR_SSL_CA' => config('database.connections.mysql.options.' . PDO::MYSQL_ATTR_SSL_CA)    
     ];
 });
