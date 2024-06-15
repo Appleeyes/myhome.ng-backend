@@ -48,15 +48,10 @@ echo "Checking Passport keys..."
 ls -l /var/www/html/storage/oauth-private.key
 ls -l /var/www/html/storage/oauth-public.key
 
-# Optional: Exit with error if keys are missing
-if [ ! -f /var/www/html/storage/oauth-private.key ] || [ ! -f /var/www/html/storage/oauth-public.key ]; then
-    echo "Passport keys are missing or not readable. Deployment aborted."
-    exit 1
-fi
+echo "Creating symbolic link for passport keys..."
+ln -s /var/www/html/storage/oauth-private.key /var/www/html/public/oauth-private.key
+ln -s /var/www/html/storage/oauth-public.key /var/www/html/public/oauth-public.key
 
-# Print the last 100 lines of the Laravel log
-echo "Printing Laravel log..."
-tail -n 100 /var/www/html/storage/logs/laravel.log
 
 
 echo "Deployment completed successfully."
