@@ -36,8 +36,22 @@ php artisan migrate --force
 echo "Setting up Passport keys..."
 php artisan passport:keys --force
 
-# Check the storage directory contents
-echo "Checking storage directory..."
-ls -l /var/www/html/storage
+# Ensure correct permissions
+echo "Setting permissions for Passport keys..."
+sudo chmod 600 /var/www/html/storage/oauth-private.key
+sudo chmod 600 /var/www/html/storage/oauth-public.key
+sudo chown www-data:www-data /var/www/html/storage/oauth-private.key
+sudo chown www-data:www-data /var/www/html/storage/oauth-public.key
+
+# Verify Passport key existence and permissions
+echo "Checking Passport keys..."
+ls -l /var/www/html/storage/oauth-private.key
+ls -l /var/www/html/storage/oauth-public.key
+
+# Optional: Exit with error if keys are missing
+if [ ! -f /var/www/html/storage/oauth-private.key ] || [ ! -f /var/www/html/storage/oauth-public.key ]; then
+    echo "Passport keys are missing or not readable. Deployment aborted."
+    exit 1
+fi
 
 echo "Deployment completed successfully."
