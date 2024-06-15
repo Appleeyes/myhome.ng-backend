@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 echo "Running composer"
 composer global require hirak/prestissimo
@@ -50,7 +51,7 @@ if [ -f /var/www/html/storage/oauth-private.key ] && [ -f /var/www/html/storage/
     chown www-data:www-data /var/www/html/storage/oauth/*.key
 else
     # If keys are not found, search the entire project for them
-    echo "Passport keys are missing in expected directory. Searching the entire project..."
+    echo "Passport keys are missing in the expected directory. Searching the entire project..."
     find /var/www/html -name oauth-private.key -o -name oauth-public.key
 
     # Attempt to locate keys
