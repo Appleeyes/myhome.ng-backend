@@ -40,36 +40,4 @@ php artisan passport:keys --force
 echo "Checking storage directory..."
 ls -l /var/www/html/storage
 
-# Verify Passport key existence in the expected directory
-if [ -f /var/www/html/storage/oauth-private.key ] && [ -f /var/www/html/storage/oauth-public.key ]; then
-    echo "Setting permissions for Passport keys..."
-    chmod 600 /var/www/html/storage/oauth/*.key
-    chown www-data:www-data /var/www/html/storage/oauth/*.key
-else
-    # If keys are not found, search the entire project for them
-    echo "Passport keys are missing in the expected directory. Searching the entire project..."
-    find /var/www/html -name oauth-private.key -o -name oauth-public.key
-
-    # Attempt to locate keys
-    private_key=$(find /var/www/html -name oauth-private.key)
-    public_key=$(find /var/www/html -name oauth-public.key)
-
-    if [ -n "$private_key" ] && [ -n "$public_key" ]; then
-        echo "Passport keys found. Moving them to the correct location..."
-        mv "$private_key" /var/www/html/storage/oauth/
-        mv "$public_key" /var/www/html/storage/oauth/
-
-        echo "Setting permissions for Passport keys..."
-        chmod 600 /var/www/html/storage/oauth/*.key
-        chown www-data:www-data /var/www/html/storage/oauth/*.key
-    else
-        echo "Passport keys are missing or not readable. Deployment aborted."
-        exit 1
-    fi
-fi
-
-# Verify Passport key existence and permissions
-echo "Checking Passport keys..."
-ls -l /var/www/html/storage/oauth/
-
 echo "Deployment completed successfully."
