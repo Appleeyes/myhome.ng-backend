@@ -38,10 +38,10 @@ php artisan passport:keys --force
 
 # Ensure correct permissions
 echo "Setting permissions for Passport keys..."
-sudo chmod 600 /var/www/html/storage/oauth-private.key
-sudo chmod 600 /var/www/html/storage/oauth-public.key
-sudo chown www-data:www-data /var/www/html/storage/oauth-private.key
-sudo chown www-data:www-data /var/www/html/storage/oauth-public.key
+chmod 600 /var/www/html/storage/oauth-private.key
+chmod 600 /var/www/html/storage/oauth-public.key
+chown www-data:www-data /var/www/html/storage/oauth-private.key
+chown www-data:www-data /var/www/html/storage/oauth-public.key
 
 # Verify Passport key existence and permissions
 echo "Checking Passport keys..."
@@ -53,5 +53,10 @@ if [ ! -f /var/www/html/storage/oauth-private.key ] || [ ! -f /var/www/html/stor
     echo "Passport keys are missing or not readable. Deployment aborted."
     exit 1
 fi
+
+# Print the last 100 lines of the Laravel log
+echo "Printing Laravel log..."
+tail -n 100 /var/www/html/storage/logs/laravel.log
+
 
 echo "Deployment completed successfully."
