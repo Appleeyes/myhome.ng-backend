@@ -30,5 +30,22 @@ php artisan db:test-connection
 echo "Running migrations..."
 php artisan migrate --force
 
-echo "Installing Laravel Passport"
-php artisan passport:install --force
+# echo "Installing Laravel Passport"
+# php artisan passport:install --force
+
+echo "Setting up Passport keys..."
+php artisan passport:keys --force
+
+# Ensure correct permissions
+chmod 600 /var/www/html/storage/oauth/*.key
+chown www-data:www-data /var/www/html/storage/oauth/*.key
+
+# Verify Passport key existence and permissions
+echo "Checking Passport keys..."
+ls -l /var/www/html/storage/oauth/
+
+# Optional: Exit with error if keys are missing
+if [ ! -f /var/www/html/storage/oauth/oauth-private.key ] || [ ! -f /var/www/html/storage/oauth/oauth-public.key ]; then
+    echo "Passport keys are missing or not readable. Deployment aborted."
+    exit 1
+fi
