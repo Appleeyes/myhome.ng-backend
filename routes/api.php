@@ -29,3 +29,13 @@ Route::prefix('v1')->group(function () {
 Route::middleware(['auth:api', 'role:' . Roles::LANDLORD])->prefix('v1')->group(function () {
     // 
 });
+
+Route::get('/debug-passport-config', function () {
+    return [
+        'private_key' => config('passport.private_key'),
+        'public_key' => config('passport.public_key'),
+        'private_key_file_exists' => file_exists(config('passport.private_key')),
+        'public_key_file_exists' => file_exists(config('passport.public_key')),
+    ];
+});
+
