@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
-
-set -e
-set -x
-
 echo "Running composer"
 composer global require hirak/prestissimo
 composer install --no-dev --working-dir=/var/www/html
 
-# echo "Generating application key..."
+# echo "generating application key..."
 # php artisan key:generate --show
 
 # echo "Creating public/docs directory if it doesn't exist..."
