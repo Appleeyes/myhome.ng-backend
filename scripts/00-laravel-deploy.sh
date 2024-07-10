@@ -7,7 +7,7 @@ composer install --no-dev --working-dir=/var/www/html
 # php artisan key:generate --show
 
 echo "Creating public/docs directory if it doesn't exist..."
-mkdir -p /var/www/html/public/docs
+mkdir -p /var/www/html/public/docs/asset
 
 # echo "Creating symbolic link for Swagger UI assets..."
 # ln -s /var/www/html/vendor/swagger-api/swagger-ui/dist/ /var/www/html/public/docs/asset
