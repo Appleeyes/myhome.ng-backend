@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
+
 echo "Running composer"
 composer global require hirak/prestissimo
 composer install --no-dev --working-dir=/var/www/html
 
-# echo "generating application key..."
+# echo "Generating application key..."
 # php artisan key:generate --show
 
 echo "Creating public/docs/asset directory if it doesn't exist..."
-sudo mkdir -p /var/www/html/public/docs/asset
+mkdir -p /var/www/html/public/docs/asset
 
 echo "Verify file presence"
 ls -l /var/www/html/public/docs/
@@ -16,7 +17,7 @@ ls -l /var/www/html/public/docs/
 # ln -s /var/www/html/vendor/swagger-api/swagger-ui/dist/ /var/www/html/public/docs/asset
 
 echo "Copying Swagger UI assets..."
-sudo cp -r /var/www/html/vendor/swagger-api/swagger-ui/dist/* /var/www/html/public/docs/asset/
+cp -r /var/www/html/vendor/swagger-api/swagger-ui/dist/* /var/www/html/public/docs/asset/
 
 echo "Verify files presence"
 ls -l /var/www/html/public/docs/asset/
