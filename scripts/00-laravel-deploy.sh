@@ -6,14 +6,17 @@ composer install --no-dev --working-dir=/var/www/html
 # echo "generating application key..."
 # php artisan key:generate --show
 
-echo "Creating public/docs directory if it doesn't exist..."
-mkdir -p /var/www/html/public/docs/asset
+# echo "Creating public/docs/asset directory if it doesn't exist..."
+# mkdir -p /var/www/html/public/docs/asset
 
 # echo "Creating symbolic link for Swagger UI assets..."
 # ln -s /var/www/html/vendor/swagger-api/swagger-ui/dist/ /var/www/html/public/docs/asset
 
-echo "Copying Swagger UI assets..."
-cp -r /var/www/html/vendor/swagger-api/swagger-ui/dist/* /var/www/html/public/docs/asset/
+# echo "Copying Swagger UI assets..."
+# cp -r /var/www/html/vendor/swagger-api/swagger-ui/dist/* /var/www/html/public/docs/asset/
+
+echo "Verify files presence"
+ls -l /var/www/html/public/docs/asset/
 
 echo "Caching config..."
 php artisan config:cache
