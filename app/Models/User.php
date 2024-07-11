@@ -24,7 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
-        'role'
+        'role',
+        'email_verified_at'
     ];
 
     /**
@@ -54,5 +55,10 @@ class User extends Authenticatable
     public function isLandlord()
     {
         return $this->role === Roles::LANDLORD;
+    }
+
+    public static function generateVerificaionCode($length = 4)
+    {
+        return random_int(1000, 9999);
     }
 }

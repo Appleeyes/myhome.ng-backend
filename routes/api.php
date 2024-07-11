@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\Auth\TenantAuthController;
+use App\Http\Controllers\Auth\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::middleware(['auth:api', 'role:' . Roles::TENANT])->prefix('v1')->group(fu
 Route::prefix('v1')->group(function () {
     Route::post('/tenant/register', [TenantAuthController::class, 'register']);
     Route::post('/tenant/login', [TenantAuthController::class, 'login']);
+    Route::post('/{user}/send-verification-email', [VerificationController::class, 'sendEmail']);
+    Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);
 });
 
 Route::middleware(['auth:api', 'role:' . Roles::LANDLORD])->prefix('v1')->group(function () {
