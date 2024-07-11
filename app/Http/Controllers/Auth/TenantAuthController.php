@@ -23,6 +23,7 @@ class TenantAuthController extends Controller
      *      tags={"Auth"},
      *      summary="Register a new tenant",
      *      description="Register a new tenant with the provided information.",
+     *      operationId="tenantRegister",
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
@@ -76,6 +77,7 @@ class TenantAuthController extends Controller
      *      tags={"Auth"},
      *      summary="Authenticate a tenant",
      *      description="Authenticate a tenant with the provided email and password",
+     *      operationId="tenantLogin",
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(

@@ -13,7 +13,7 @@
                 ],
                 "summary": "Register a new tenant",
                 "description": "Register a new tenant with the provided information.",
-                "operationId": "6d9165a2461d6b5a8cc587c2a7932536",
+                "operationId": "tenantRegister",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -106,7 +106,7 @@
                 ],
                 "summary": "Authenticate a tenant",
                 "description": "Authenticate a tenant with the provided email and password",
-                "operationId": "7093f5a19e62b3e9b7f2f47076a35c03",
+                "operationId": "tenantLogin",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -194,6 +194,112 @@
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/{user}/send-verification-code": {
+            "post": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Send a verification code to the user's email",
+                "description": "Sends a verification code to the user's email for verification purposes.",
+                "operationId": "sendEmail",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to receive the verification code",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verification code sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Verification code sent successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/verify-email": {
+            "post": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Verify the user's email using the verification code",
+                "description": "Verifies the user's email by checking the verification code.",
+                "operationId": "verifyEmail",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID of the user to be verified",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "verification_code",
+                        "in": "query",
+                        "description": "Verification code sent to the user's email",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1234
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email verified successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Email verified successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid verification code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid verification code"
                                         }
                                     },
                                     "type": "object"
