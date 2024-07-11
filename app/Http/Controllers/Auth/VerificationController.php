@@ -14,7 +14,7 @@ class VerificationController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/v1/{user}/send-verification-code",
+     *      path="/api/v1/{user}/send-verification-email",
      *      tags={"Email"},
      *      summary="Send a verification code to the user's email",
      *      description="Sends a verification code to the user's email for verification purposes.",
@@ -50,7 +50,7 @@ class VerificationController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/v1/user/verify-email",
+     *      path="/api/v1/verify-email",
      *      tags={"Email"},
      *      summary="Verify the user's email using the verification code",
      *      description="Verifies the user's email by checking the verification code.",

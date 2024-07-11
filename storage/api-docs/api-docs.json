@@ -204,7 +204,7 @@
                 }
             }
         },
-        "/api/v1/{user}/send-verification-code": {
+        "/api/v1/{user}/send-verification-email": {
             "post": {
                 "tags": [
                     "Email"
@@ -244,7 +244,7 @@
                 }
             }
         },
-        "/api/v1/user/verify-email": {
+        "/api/v1/verify-email": {
             "post": {
                 "tags": [
                     "Email"
