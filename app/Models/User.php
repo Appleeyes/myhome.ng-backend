@@ -57,7 +57,7 @@ class User extends Authenticatable
         return $this->role === Roles::LANDLORD;
     }
 
-    public static function generateVerificaionCode($length = 4)
+    public static function generateVerificationCode($length = 4)
     {
         return random_int(1000, 9999);
     }
