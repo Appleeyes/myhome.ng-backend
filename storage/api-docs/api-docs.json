@@ -6,14 +6,72 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/tenant/register": {
+        "/api/v1/set-role": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register a new tenant",
-                "description": "Register a new tenant with the provided information.",
-                "operationId": "tenantRegister",
+                "summary": "Set the user role before registration",
+                "description": "Sets the user role before the user completes registration.",
+                "operationId": "setUserRole",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "description": "Role of the user (user or Landlord)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Role set successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role set successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "description": "Register a new user with the provided information.",
+                "operationId": "userRegister",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -48,14 +106,14 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Tenant registered successfully",
+                        "description": "User registered successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Tenant registered successfully"
+                                            "example": "User registered successfully"
                                         },
                                         "data": {
                                             "properties": {
@@ -99,14 +157,14 @@
                 }
             }
         },
-        "/api/v1/tenant/login": {
+        "/api/v1/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Authenticate a tenant",
-                "description": "Authenticate a tenant with the provided email and password",
-                "operationId": "tenantLogin",
+                "summary": "Authenticate a user",
+                "description": "Authenticate a user with the provided email and password",
+                "operationId": "userLogin",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -129,14 +187,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Tenant authenticated successfully",
+                        "description": "User authenticated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Tenant authenticated successfully"
+                                            "example": "User authenticated successfully"
                                         },
                                         "data": {
                                             "properties": {
