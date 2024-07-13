@@ -19,7 +19,7 @@ class AuthService
     public function setRole(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'role' => 'required|string|in:user,landlord',
+            'role' => 'required|string|in:tenant,landlord',
         ]);
 
         if ($validator->fails()){
