@@ -5,25 +5,61 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Services\TenantService;
 use App\Http\Controllers\Controller;
+use App\Services\AuthService;
 
-class TenantAuthController extends Controller
+class AuthController extends Controller
 {
-    protected $tenantService;
+    protected $authService;
 
-    public function __construct(TenantService $tenantService)
+    public function __construct(AuthService $authService)
     {
-        $this->tenantService = $tenantService;
+        $this->authService = $authService;
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/tenant/register",
+     *      path="/api/v1/set-role",
      *      tags={"Auth"},
-     *      summary="Register a new tenant",
-     *      description="Register a new tenant with the provided information.",
-     *      operationId="tenantRegister",
+     *      summary="Set the user role before registration",
+     *      description="Sets the user role before the user completes registration.",
+     *      operationId="setUserRole",
+     *      @OA\Parameter(
+     *          name="role",
+     *          in="query",
+     *          required=true,
+     *          description="Role of the user (user or Landlord)",
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Role set successfully",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Role set successfully"),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(property="errors", type="object"),
+     *          ),
+     *      ),
+     * )
+     */
+    public function setRole(Request $request)
+    {
+        return $this->authService->setRole($request);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/register",
+     *      tags={"Auth"},
+     *      summary="Register a new user",
+     *      description="Register a new user with the provided information.",
+     *      operationId="userRegister",
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
@@ -36,10 +72,10 @@ class TenantAuthController extends Controller
      *      ),
      *      @OA\Response(
      *          response=201,
-     *          description="Tenant registered successfully",
+     *          description="User registered successfully",
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="message", type="string", example="Tenant registered successfully"),
+     *              @OA\Property(property="message", type="string", example="User registered successfully"),
      *              @OA\Property(property="data", type="object", @OA\Property(property="token", type="string", example="YOUR_ACCESS_TOKEN")),
      *          ),
      *      ),
@@ -56,7 +92,7 @@ class TenantAuthController extends Controller
      */
     public function register(Request $request)
     {
-        $result = $this->tenantService->register($request);
+        $result = $this->authService->register($request);
 
         if (isset($result['error'])) {
             return response()->json([
@@ -66,18 +102,18 @@ class TenantAuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'Tenant registered successfully',
+            'message' => 'user registered successfully',
             'data' => $result,
         ], Response::HTTP_CREATED);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/tenant/login",
+     *      path="/api/v1/login",
      *      tags={"Auth"},
-     *      summary="Authenticate a tenant",
-     *      description="Authenticate a tenant with the provided email and password",
-     *      operationId="tenantLogin",
+     *      summary="Authenticate a user",
+     *      description="Authenticate a user with the provided email and password",
+     *      operationId="userLogin",
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
@@ -87,9 +123,9 @@ class TenantAuthController extends Controller
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="Tenant authenticated successfully",
+     *          description="User authenticated successfully",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Tenant authenticated successfully"),
+     *              @OA\Property(property="message", type="string", example="User authenticated successfully"),
      *              @OA\Property(property="data", type="object", @OA\Property(property="token", type="string", example="YOUR_TOKEN")),
      *          ),
      *      ),
@@ -113,7 +149,7 @@ class TenantAuthController extends Controller
      */
     public function login(Request $request)
     {
-        $result = $this->tenantService->login($request->only('email', 'password'));
+        $result = $this->authService->login($request->only('email', 'password'));
 
         if (isset($result['error'])) {
             return response()->json([
@@ -130,7 +166,7 @@ class TenantAuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'Tenant authenticated successfully',
+            'message' => 'user authenticated successfully',
             'data' => $result,
         ], Response::HTTP_OK);
     }
