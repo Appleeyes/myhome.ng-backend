@@ -27,6 +27,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/{user}/send-verification-email', [VerificationController::class, 'sendEmail']);
     Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);
+
+    Route::delete('/user/{user}', [AuthController::class, 'deleteUser']);
 });
 
 Route::middleware(['auth:api', 'role:' . Roles::LANDLORD])->prefix('v1')->group(function () {
