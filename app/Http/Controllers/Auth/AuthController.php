@@ -171,4 +171,50 @@ class AuthController extends Controller
             'data' => $result,
         ], Response::HTTP_OK);
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/user/{user}",
+     *     summary="Delete a user",
+     *     description="Deletes a user by ID",
+     *     operationId="deleteUser",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         description="ID of the user to be deleted",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="User deleted successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="User not found")
+     *         )
+     *     ),
+     * )
+     */
+    public function deleteUser(Request $request, User $user){
+        if(!$user){
+            return response()->json([
+                'message' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User deleted successfully'
+        ], Response::HTTP_OK);
+    }
 }
