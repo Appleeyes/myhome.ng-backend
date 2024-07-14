@@ -97,6 +97,10 @@
                                     "password_confirmation": {
                                         "type": "string",
                                         "example": "password123"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -173,7 +177,7 @@
                                 "properties": {
                                     "email": {
                                         "type": "string",
-                                        "example": "john@example.com"
+                                        "example": "johndoe@example.com"
                                     },
                                     "password": {
                                         "type": "string",

@@ -170,7 +170,7 @@
 
         <tr>
             <td class="content">
-                <p class="welcome">Hi,</p>
+                <p class="welcome">Hi, {{ $userName }}</p>
                 <p class="paragraph">
                     We're thrilled to have you on board. To ensure the
                     security of your account and provide you with the best
