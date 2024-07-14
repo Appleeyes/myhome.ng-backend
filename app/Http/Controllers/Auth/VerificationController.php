@@ -40,8 +40,9 @@ class VerificationController extends Controller
         $verificationCode = User::generateVerificationCode();
 
         Cache::put('verification_code_' . $user->id, $verificationCode, now()->addMinutes(10));
+        $userName = $user->name;
 
-        Mail::to($user->email)->send(new VerifyEmail($verificationCode));
+        Mail::to($user->email)->send(new VerifyEmail($verificationCode, $userName));
 
         return response()->json([
             'message' => 'Verification code sent successfully',

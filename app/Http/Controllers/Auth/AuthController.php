@@ -68,6 +68,7 @@ class AuthController extends Controller
      *              @OA\Property(property="phone_number", type="string", example="1234567890"),
      *              @OA\Property(property="password", type="string", example="password123"),
      *              @OA\Property(property="password_confirmation", type="string", example="password123"),
+     *              @OA\Property(property="user_id", type="integer", example=1),
      *          )
      *      ),
      *      @OA\Response(
@@ -117,7 +118,7 @@ class AuthController extends Controller
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              @OA\Property(property="email", type="string", example="john@example.com"),
+     *              @OA\Property(property="email", type="string", example="johndoe@example.com"),
      *              @OA\Property(property="password", type="string", example="password123")
      *          )
      *      ),
