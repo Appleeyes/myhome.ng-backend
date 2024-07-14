@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductController;
 
 Route::middleware(['auth:api', 'role:' . Roles::TENANT])->prefix('v1')->group(function () {
     Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
+    Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
 });
 
 Route::prefix('v1')->group(function () {
