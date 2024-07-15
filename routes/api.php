@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,9 @@ use App\Http\Controllers\Auth\VerificationController;
 */
 
 Route::middleware(['auth:api', 'role:' . Roles::TENANT])->prefix('v1')->group(function () {
-    // 
+    Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
+    Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
+    Route::get('/products/{productId}', [ProductController::class, 'getProductDetails']);
 });
 
 Route::prefix('v1')->group(function () {

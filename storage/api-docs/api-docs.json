@@ -426,6 +426,270 @@
                     }
                 }
             }
+        },
+        "/api/v1/products/recommended": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get recommended products",
+                "description": "Retrieve a list of recommended products.",
+                "operationId": "recommendedProducts",
+                "responses": {
+                    "200": {
+                        "description": "Recommended products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Recommended products retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No recommended product found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No recommended product found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/popular": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get popular products",
+                "description": "Retrieve a list of popular products.",
+                "operationId": "popularProducts",
+                "responses": {
+                    "200": {
+                        "description": "Popular products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Popular products retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No popular product found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No popular product found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/{productId}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product details",
+                "description": "Retrieve details of a product by its ID.",
+                "operationId": "productDetails",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID of the product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Popular products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Popular products retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No popular product found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No popular product found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "title": "Product",
+                "description": "Product model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "property_type": {
+                        "type": "string",
+                        "example": "Apartment"
+                    },
+                    "price": {
+                        "type": "integer",
+                        "example": 10000000
+                    },
+                    "listing_type": {
+                        "type": "string",
+                        "example": "Silver Listing"
+                    },
+                    "listing_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "recommended": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "popular": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "Lekki Phase 1, Admirality way"
+                    },
+                    "image_path": {
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dv2lhfdnv/image/upload/v1720976292/myHome/gjbfoweby2cbrnz8qe6h.png"
+                    },
+                    "erf_size": {
+                        "type": "string",
+                        "example": "1239 m2"
+                    },
+                    "floor_size": {
+                        "type": "string",
+                        "example": "42 m2"
+                    },
+                    "dues_and_levies": {
+                        "type": "integer",
+                        "example": 10000
+                    },
+                    "pet_allowed": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "bedrooms": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "bathrooms": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "parking_lot": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
         }
     }
 }
