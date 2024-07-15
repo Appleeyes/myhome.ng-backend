@@ -35,7 +35,7 @@ class ProductController extends Controller
      *          response=404,
      *          description="No recommended product found",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="No recommended product found"),
+     *              @OA\Property(property="message", type="string", example="No recommended product found"),
      *          ),
      *      ),
      * )
@@ -66,7 +66,7 @@ class ProductController extends Controller
      *          response=404,
      *          description="No popular product found",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="No popular product found"),
+     *              @OA\Property(property="message", type="string", example="No popular product found"),
      *          ),
      *      ),
      * )
@@ -74,5 +74,43 @@ class ProductController extends Controller
     public function getPopularProduct()
     {
         return $this->productService->getPopularProduct();
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/products/{productId}",
+     *      tags={"Products"},
+     *      summary="Get product details",
+     *      description="Retrieve details of a product by its ID.",
+     *      operationId="productDetails",
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Parameter(
+     *          name="productId",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the product",
+     *          @OA\Schema(type="integer", example=2)
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Popular products retrieved successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Popular products retrieved successfully"),
+     *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Product")),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="No popular product found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="No popular product found"),
+     *          ),
+     *      ),
+     * )
+     */
+    public function getProductDetails($productId)
+    {
+        return $this->productService->getProductDetails($productId);
     }
 }

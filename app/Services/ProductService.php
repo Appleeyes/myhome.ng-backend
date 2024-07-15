@@ -12,7 +12,7 @@ class ProductService
         $recommendedProduct = Product::where('recommended', true)->get();
         if(!$recommendedProduct){
             return response()->json([
-                'error' => 'No recommended product found'
+                'message' => 'No recommended product found'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -27,7 +27,7 @@ class ProductService
         $popularProduct = Product::where('popular', true)->get();
         if(!$popularProduct){
             return response()->json([
-                'error' => 'No popular product found'
+                'message' => 'No popular product found'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -35,5 +35,21 @@ class ProductService
             'message' => 'Popular product retrieved successfully',
             'data' => $popularProduct
         ], Response::HTTP_OK);
+    }
+
+    public function getProductDetails($productId)
+    {
+        $productDetails = Product::find($productId);
+
+        if($productDetails){
+            return response()->json([
+                'message' => 'Product details retrieved successfully',
+                'data' => $productDetails
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Product not found',
+        ], Response::HTTP_NOT_FOUND);
     }
 }
