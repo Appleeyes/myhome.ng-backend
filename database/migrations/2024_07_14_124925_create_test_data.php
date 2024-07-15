@@ -12,9 +12,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $dbDriver = DB::getDriverName();
+
+        if ($dbDriver === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        } elseif ($dbDriver === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = OFF;');
+        }
+
         DB::table('users')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        if ($dbDriver === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        } elseif ($dbDriver === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = ON;');
+        }
+
         DB::table('users')->insert([
             [
                 'id' => 1,
@@ -79,6 +92,7 @@ return new class extends Migration
             ];
         }
 
+        // Insert the product records
         DB::table('products')->insert($products);
     }
 
@@ -87,8 +101,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::table('users')->where('email', 'landlord@example.com')->delete();
-        DB::table('users')->where('email', 'tenant@example.com')->delete();
         DB::table('products')->truncate();
+
+        DB::table('users')->where('email', 'landlord2@example.com')->delete();
+        DB::table('users')->where('email', 'landlord1@example.com')->delete();
     }
 };
