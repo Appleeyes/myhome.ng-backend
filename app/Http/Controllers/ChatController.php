@@ -106,4 +106,43 @@ class ChatController extends Controller
     {
         return $this->chatService->sendMessage($request, $chatId);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/chats/product/{productId}/agent/{agentId}",
+     *     summary="Get specific chat for the authenticated tenant related to a specific product and agent",
+     *     tags={"Chats"},
+     *     description="Get specific chat for the authenticated tenant related to a specific product and agent",
+     *     operationId="getSpecificChat",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="productId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="ID of the product"
+     *     ),
+     *     @OA\Parameter(
+     *         name="agentId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="ID of the agent"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Chat retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Chat retrieved successfully"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Chat")
+     *         )
+     *     )
+     * )
+     */
+    public function getSpecificChat(Request $request, $productId, $agentId)
+    {
+        return $this->chatService->getSpecificChat($request, $productId, $agentId);
+    }
+
 }

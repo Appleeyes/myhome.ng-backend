@@ -47,4 +47,19 @@ class ChatService
             'data' => $message
         ], Response::HTTP_OK);
     }
+
+    public function getSpecificChat(Request $request, $productId, $agentId)
+    {
+        $chat = Chat::where('tenant_id', $request->user()->id)
+            ->where('product_id', $productId)
+            ->where('agent_id', $agentId)
+            ->with(['messages', 'product'])
+            ->firstOrFail();
+
+        return response()->json([
+            'message' => 'Chat retrieved successfully',
+            'data' => $chat
+        ], Response::HTTP_OK);
+    }
+
 }
