@@ -427,6 +427,161 @@
                 }
             }
         },
+        "/api/v1/contact-agent/{productId}": {
+            "post": {
+                "tags": [
+                    "Chats"
+                ],
+                "summary": "Start a chat with an agent",
+                "description": "Start a chat with an agent about a product",
+                "operationId": "startChat",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID of the product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chat started successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chat started successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Chat"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chats": {
+            "get": {
+                "tags": [
+                    "Chats"
+                ],
+                "summary": "Get all chats for the authenticated tenant",
+                "description": "Get all chats for the authenticated tenant",
+                "operationId": "getChats",
+                "responses": {
+                    "200": {
+                        "description": "Chats retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chats retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Chat"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chats/{chatId}/messages": {
+            "post": {
+                "tags": [
+                    "Chats"
+                ],
+                "summary": "Send a message in a chat",
+                "description": "Send a message to an agent in a chat",
+                "operationId": "sendMessage",
+                "parameters": [
+                    {
+                        "name": "chatId",
+                        "in": "path",
+                        "description": "ID of the chat",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Hello, I am interested in this property......"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Message sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "object",
+                                            "example": "Message sent successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Message"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/products/recommended": {
             "get": {
                 "tags": [
@@ -607,6 +762,52 @@
     },
     "components": {
         "schemas": {
+            "Chat": {
+                "title": "Chat",
+                "description": "Chat model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "product_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "tenant_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "agent_id": {
+                        "type": "integer",
+                        "example": 4
+                    }
+                },
+                "type": "object"
+            },
+            "Message": {
+                "title": "Message",
+                "description": "Message model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "chat_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "sender_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Hello, I am interested in this property......"
+                    }
+                },
+                "type": "object"
+            },
             "Product": {
                 "title": "Product",
                 "description": "Product model",

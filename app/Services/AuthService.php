@@ -36,7 +36,7 @@ class AuthService
         return response()->json([
             'message' => 'Role set successfully',
             'user_id' => $user->id
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     public function register(Request $request)
