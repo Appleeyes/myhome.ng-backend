@@ -58,6 +58,16 @@ class User extends Authenticatable
         return $this->role === Roles::LANDLORD;
     }
 
+    public function chatsAsTenant()
+    {
+        return $this->hasMany(Chat::class, 'tenant_id');
+    }
+
+    public function chatsAsAgent()
+    {
+        return $this->hasMany(Chat::class, 'agent_id');
+    }
+
     public static function generateVerificationCode($length = 4)
     {
         return random_int(1000, 9999);
