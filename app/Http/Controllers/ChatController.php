@@ -154,4 +154,51 @@ class ChatController extends Controller
         return $this->chatService->getSpecificChat($request, $productId, $agentId);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/chats/{chatId}",
+     *     summary="Get a specific chat by ID for the authenticated user",
+     *     tags={"Chats"},
+     *     description="Retrieve a specific chat by ID. Only accessible to the tenant or landlord involved in the chat.",
+     *     operationId="getChatById",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="chatId",
+     *         in="path",
+     *         description="ID of the chat to retrieve",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Chat retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Chat retrieved successfully"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Chat")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Unauthorized access",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthorized")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Chat not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Chat not found")
+     *         )
+     *     )
+     * )
+     */
+    public function getChatById(Request $request, $chatId)
+    {
+        return $this->chatService->getChatById($chatId, $request);
+    }
+
 }

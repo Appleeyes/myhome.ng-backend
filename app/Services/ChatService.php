@@ -80,4 +80,24 @@ class ChatService
         ], Response::HTTP_OK);
     }
 
+    public function getChatById($chatId, Request $request)
+    {
+        $userId = $request->user()->id;
+        $userRole = $request->user()->role;
+
+        $chat = Chat::with(['messages', 'product'])
+        ->where(function ($query) use ($userId, $userRole) {
+            if ($userRole === Roles::TENANT) {
+                $query->where('tenant_id', $userId);
+            } elseif ($userRole === Roles::LANDLORD) {
+                $query->where('agent_id', $userId);
+            }
+        })
+            ->findOrFail($chatId);
+
+        return response()->json([
+            'message' => 'Chat retrieved successfully',
+            'data' => $chat
+        ], Response::HTTP_OK);
+    }
 }

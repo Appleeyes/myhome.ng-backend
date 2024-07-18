@@ -22,6 +22,7 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function () {
     Route::get('/chats', [ChatController::class, 'getChats']);
     Route::post('/chats/{chat}/messages', [ChatController::class, 'sendMessage']);
     Route::get('/chats/product/{productId}/agent/{agentId}', [ChatController::class, 'getSpecificChat']);
+    Route::get('/chats/{chatId}', [ChatController::class, 'getChatById']);
 
     Route::middleware(['role:' . Roles::TENANT])->group(function () {
         Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
