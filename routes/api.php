@@ -26,6 +26,7 @@ Route::middleware(['auth:api', 'role:' . Roles::TENANT])->prefix('v1')->group(fu
     Route::post('/contact-agent/{product}', [ChatController::class, 'startChat']);
     Route::get('/chats', [ChatController::class, 'getChats']);
     Route::post('/chats/{chat}/messages', [ChatController::class, 'sendMessage']);
+    Route::get('/chats/product/{productId}/agent/{agentId}', [ChatController::class, 'getSpecificChat']);
 });
 
 Route::prefix('v1')->group(function () {
