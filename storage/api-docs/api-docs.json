@@ -482,8 +482,8 @@
                 "tags": [
                     "Chats"
                 ],
-                "summary": "Get all chats for the authenticated tenant",
-                "description": "Get all chats for the authenticated tenant",
+                "summary": "Get all chats for the authenticated user",
+                "description": "Get all chats for the authenticated user (tenant or landlord)",
                 "operationId": "getChats",
                 "responses": {
                     "200": {
@@ -501,6 +501,22 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/Chat"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
                                         }
                                     },
                                     "type": "object"
@@ -623,6 +639,85 @@
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/Chat"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chats/{chatId}": {
+            "get": {
+                "tags": [
+                    "Chats"
+                ],
+                "summary": "Get a specific chat by ID for the authenticated user",
+                "description": "Retrieve a specific chat by ID. Only accessible to the tenant or landlord involved in the chat.",
+                "operationId": "getChatById",
+                "parameters": [
+                    {
+                        "name": "chatId",
+                        "in": "path",
+                        "description": "ID of the chat to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chat retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chat retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Chat"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Chat not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chat not found"
                                         }
                                     },
                                     "type": "object"
