@@ -1,7 +1,6 @@
 <?php
 
 use App\Constants\Roles;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\VerificationController;
@@ -19,14 +18,21 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::middleware(['auth:api', 'role:' . Roles::TENANT])->prefix('v1')->group(function () {
-    Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
-    Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
-    Route::get('/products/{productId}', [ProductController::class, 'getProductDetails']);
-    Route::post('/contact-agent/{product}', [ChatController::class, 'startChat']);
+Route::middleware(['auth:api'])->prefix('v1')->group(function () {
     Route::get('/chats', [ChatController::class, 'getChats']);
     Route::post('/chats/{chat}/messages', [ChatController::class, 'sendMessage']);
     Route::get('/chats/product/{productId}/agent/{agentId}', [ChatController::class, 'getSpecificChat']);
+
+    Route::middleware(['role:' . Roles::TENANT])->group(function () {
+        Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
+        Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
+        Route::get('/products/{productId}', [ProductController::class, 'getProductDetails']);
+        Route::post('/contact-agent/{product}', [ChatController::class, 'startChat']);
+    });
+
+    Route::middleware(['role:' . Roles::LANDLORD])->group(function () {
+        // 
+    });
 });
 
 Route::prefix('v1')->group(function () {
@@ -39,9 +45,6 @@ Route::prefix('v1')->group(function () {
     Route::delete('/user/{user}', [AuthController::class, 'deleteUser']);
 });
 
-Route::middleware(['auth:api', 'role:' . Roles::LANDLORD])->prefix('v1')->group(function () {
-    // 
-});
 
 Route::get('/debug-passport-config', function () {
     return [
