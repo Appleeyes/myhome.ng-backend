@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Chat;
 use App\Models\Product;
+use App\Constants\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -26,12 +27,29 @@ class ChatService
 
     public function getChats(Request $request)
     {
-        $chats = Chat::with(['messages', 'product'])->where('tenant_id', $request->user()->id)->get();
+        $userId = $request->user()->id;
+        $userRole = $request->user()->role; 
+
+        if ($userRole === Roles::TENANT) {
+            $chats = Chat::with(['messages', 'product'])
+            ->where('tenant_id', $userId)
+                ->get();
+        } elseif ($userRole === Roles::LANDLORD) {
+            $chats = Chat::with(['messages', 'product'])
+            ->where('agent_id', $userId)
+                ->get();
+        } else {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         return response()->json([
-            'message' => 'Chats retrieved successfully',
+            'message' => $request->user()->name . ' ' . 'chats retrieved successfully',
             'data' => $chats
         ], Response::HTTP_OK);
     }
+
 
     public function sendMessage(Request $request, $chatId)
     {

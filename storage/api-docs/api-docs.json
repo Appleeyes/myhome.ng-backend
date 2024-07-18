@@ -482,8 +482,8 @@
                 "tags": [
                     "Chats"
                 ],
-                "summary": "Get all chats for the authenticated tenant",
-                "description": "Get all chats for the authenticated tenant",
+                "summary": "Get all chats for the authenticated user",
+                "description": "Get all chats for the authenticated user (tenant or landlord)",
                 "operationId": "getChats",
                 "responses": {
                     "200": {
@@ -501,6 +501,22 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/Chat"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
                                         }
                                     },
                                     "type": "object"
