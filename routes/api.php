@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProductController;
 
 /*
@@ -22,6 +23,9 @@ Route::middleware(['auth:api', 'role:' . Roles::TENANT])->prefix('v1')->group(fu
     Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
     Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
     Route::get('/products/{productId}', [ProductController::class, 'getProductDetails']);
+    Route::post('/contact-agent/{product}', [ChatController::class, 'startChat']);
+    Route::get('/chats', [ChatController::class, 'getChats']);
+    Route::post('/chats/{chat}/messages', [ChatController::class, 'sendMessage']);
 });
 
 Route::prefix('v1')->group(function () {
