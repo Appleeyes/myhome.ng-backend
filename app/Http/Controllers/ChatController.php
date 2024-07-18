@@ -50,7 +50,7 @@ class ChatController extends Controller
      *     path="/api/v1/chats",
      *     summary="Get all chats for the authenticated user",
      *     tags={"Chats"},
-     *     description="Get all chats for the authenticated user (tenant or landlord)",
+     *     description="Get all chats for the authenticated user",
      *     operationId="getChats",
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
@@ -61,14 +61,6 @@ class ChatController extends Controller
      *             @OA\Property(property="message", type="string", example="Chats retrieved successfully"),
      *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Chat"))
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response=403,
-     *         description="Unauthorized access",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string", example="Unauthorized")
-     *         )
      *     )
      * )
      */
@@ -76,7 +68,6 @@ class ChatController extends Controller
     {
         return $this->chatService->getChats($request);
     }
-
 
     /**
      * @OA\Post(

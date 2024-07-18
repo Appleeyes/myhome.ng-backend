@@ -28,14 +28,14 @@ class ChatService
     public function getChats(Request $request)
     {
         $userId = $request->user()->id;
-        $userRole = $request->user()->role; 
+        $userRole = $request->user()->role;
 
         if ($userRole === Roles::TENANT) {
-            $chats = Chat::with(['messages', 'product'])
+            $chats = Chat::with(['messages', 'product', 'agent'])
             ->where('tenant_id', $userId)
                 ->get();
         } elseif ($userRole === Roles::LANDLORD) {
-            $chats = Chat::with(['messages', 'product'])
+            $chats = Chat::with(['messages', 'product', 'tenant'])
             ->where('agent_id', $userId)
                 ->get();
         } else {
@@ -45,7 +45,7 @@ class ChatService
         }
 
         return response()->json([
-            'message' => $request->user()->name . ' ' . 'chats retrieved successfully',
+            'message' => $request->user()->name . ' chats retrieved successfully',
             'data' => $chats
         ], Response::HTTP_OK);
     }
@@ -85,14 +85,14 @@ class ChatService
         $userId = $request->user()->id;
         $userRole = $request->user()->role;
 
-        $chat = Chat::with(['messages', 'product'])
-        ->where(function ($query) use ($userId, $userRole) {
-            if ($userRole === Roles::TENANT) {
-                $query->where('tenant_id', $userId);
-            } elseif ($userRole === Roles::LANDLORD) {
-                $query->where('agent_id', $userId);
-            }
-        })
+        $chat = Chat::with(['messages', 'product', 'tenant', 'agent'])
+            ->where(function ($query) use ($userId, $userRole) {
+                if ($userRole === Roles::TENANT) {
+                    $query->where('tenant_id', $userId);
+                } elseif ($userRole === Roles::LANDLORD) {
+                    $query->where('agent_id', $userId);
+                }
+            })
             ->findOrFail($chatId);
 
         return response()->json([
