@@ -44,12 +44,15 @@ class ChatService
             ], Response::HTTP_FORBIDDEN);
         }
 
+        $chats->each(function ($chat) use ($userId) {
+            $chat->unread_count = $chat->messages->where('sender_id', '!=', $userId)->whereNull('read_at')->count();
+        });
+
         return response()->json([
             'message' => $request->user()->name . ' chats retrieved successfully',
             'data' => $chats
         ], Response::HTTP_OK);
     }
-
 
     public function sendMessage(Request $request, $chatId)
     {
@@ -63,20 +66,6 @@ class ChatService
         return response()->json([
             'message' => 'Message sent successfully',
             'data' => $message
-        ], Response::HTTP_OK);
-    }
-
-    public function getSpecificChat(Request $request, $productId, $agentId)
-    {
-        $chat = Chat::where('tenant_id', $request->user()->id)
-            ->where('product_id', $productId)
-            ->where('agent_id', $agentId)
-            ->with(['messages', 'product'])
-            ->firstOrFail();
-
-        return response()->json([
-            'message' => 'Chat retrieved successfully',
-            'data' => $chat
         ], Response::HTTP_OK);
     }
 
@@ -94,6 +83,11 @@ class ChatService
                 }
             })
             ->findOrFail($chatId);
+
+        $chat->messages->where('sender_id', '!=', $userId)->each(function ($message) {
+            $message->read_at = now();
+            $message->save();
+        });
 
         return response()->json([
             'message' => 'Chat retrieved successfully',
