@@ -59,7 +59,43 @@ class ChatController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="message", type="string", example="Chats retrieved successfully"),
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Chat"))
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="product_id", type="integer"),
+     *                 @OA\Property(property="tenant_id", type="integer"),
+     *                 @OA\Property(property="agent_id", type="integer"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                 @OA\Property(property="unread_count", type="integer"),
+     *                 @OA\Property(property="messages", type="array", @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="chat_id", type="integer"),
+     *                     @OA\Property(property="sender_id", type="integer"),
+     *                     @OA\Property(property="message", type="string"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                     @OA\Property(property="read_at", type="string", format="date-time", nullable=true)
+     *                 )),
+     *                 @OA\Property(property="product", ref="#/components/schemas/Product"),
+     *                 @OA\Property(property="tenant", ref="#/components/schemas/User"),
+     *                 @OA\Property(property="agent", ref="#/components/schemas/User")
+     *             ))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Unauthorized access",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthorized")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Chats not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Chats not found")
      *         )
      *     )
      * )
@@ -109,48 +145,10 @@ class ChatController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/chats/product/{productId}/agent/{agentId}",
-     *     summary="Get specific chat for the authenticated tenant related to a specific product and agent",
-     *     tags={"Chats"},
-     *     description="Get specific chat for the authenticated tenant related to a specific product and agent",
-     *     operationId="getSpecificChat",
-     *     security={{"bearerAuth":{}}},
-     *     @OA\Parameter(
-     *         name="productId",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *         description="ID of the product"
-     *     ),
-     *     @OA\Parameter(
-     *         name="agentId",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *         description="ID of the agent"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Chat retrieved successfully",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string", example="Chat retrieved successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/Chat")
-     *         )
-     *     )
-     * )
-     */
-    public function getSpecificChat(Request $request, $productId, $agentId)
-    {
-        return $this->chatService->getSpecificChat($request, $productId, $agentId);
-    }
-
-    /**
-     * @OA\Get(
      *     path="/api/v1/chats/{chatId}",
      *     summary="Get a specific chat by ID for the authenticated user",
      *     tags={"Chats"},
-     *     description="Retrieve a specific chat by ID. Only accessible to the tenant or landlord involved in the chat.",
+     *     description="Retrieve a specific chat by ID. Includes details of both the tenant and the agent involved in the chat.",
      *     operationId="getChatById",
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
@@ -166,7 +164,26 @@ class ChatController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="message", type="string", example="Chat retrieved successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/Chat")
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="product_id", type="integer"),
+     *                 @OA\Property(property="tenant_id", type="integer"),
+     *                 @OA\Property(property="agent_id", type="integer"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                 @OA\Property(property="messages", type="array", @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="chat_id", type="integer"),
+     *                     @OA\Property(property="sender_id", type="integer"),
+     *                     @OA\Property(property="message", type="string"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                     @OA\Property(property="read_at", type="string", format="date-time", nullable=true)
+     *                 )),
+     *                 @OA\Property(property="product", ref="#/components/schemas/Product"),
+     *                 @OA\Property(property="tenant", ref="#/components/schemas/User"),
+     *                 @OA\Property(property="agent", ref="#/components/schemas/User")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
