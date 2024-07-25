@@ -262,6 +262,39 @@
                 }
             }
         },
+        "/v1/signout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout a user",
+                "description": "Logout a user and revoke the access token",
+                "operationId": "e45cb7248005f562f5ba2e7afe5c2475",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout successful"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/{user}": {
             "delete": {
                 "tags": [

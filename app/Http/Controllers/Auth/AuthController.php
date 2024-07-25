@@ -172,6 +172,27 @@ class AuthController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *      path="/v1/signout",
+     *      tags={"Auth"},
+     *      summary="Logout a user",
+     *      description="Logout a user and revoke the access token",
+     *      security={{"passport": {}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Logout successful",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Logout successful"),
+     *          ),
+     *      ),
+     * )
+     */
+    public function logout(Request $request)
+    {
+        return $this->authService->logout($request->user());
+    }
+
+    /**
      * @OA\Delete(
      *     path="/api/v1/user/{user}",
      *     summary="Delete a user",

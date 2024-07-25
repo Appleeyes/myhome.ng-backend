@@ -23,7 +23,7 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function () {
     Route::get('/chats', [ChatController::class, 'getChats']);
     Route::post('/chats/{chat}/messages', [ChatController::class, 'sendMessage']);
     Route::get('/chats/{chatId}', [ChatController::class, 'getChatById']);
-
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::middleware(['role:' . Roles::TENANT])->group(function () {
         Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
         Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
@@ -44,7 +44,6 @@ Route::prefix('v1')->group(function () {
     });
     Route::post('/{user}/send-verification-email', [VerificationController::class, 'sendEmail']);
     Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);
-
     Route::delete('/user/{user}', [AuthController::class, 'deleteUser']);
 });
 

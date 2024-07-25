@@ -104,4 +104,14 @@ class AuthService
             'token' => $token,
         ];
     }
+
+    public function logout($user)
+    {
+        if ($user) {
+            $user->token()->revoke();
+            return response()->json([
+                'message' => 'Logout successful',
+            ], Response::HTTP_OK);
+        }
+    }
 }
