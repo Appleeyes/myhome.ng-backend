@@ -173,7 +173,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/v1/signout",
+     *      path="/api/v1/logout",
      *      tags={"Auth"},
      *      summary="Logout a user",
      *      description="Logout a user and revoke the access token",

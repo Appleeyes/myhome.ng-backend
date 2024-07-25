@@ -262,14 +262,14 @@
                 }
             }
         },
-        "/v1/signout": {
+        "/api/v1/logout": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Logout a user",
                 "description": "Logout a user and revoke the access token",
-                "operationId": "e45cb7248005f562f5ba2e7afe5c2475",
+                "operationId": "f833f463bbd322d353bd84c79e410b2a",
                 "responses": {
                     "200": {
                         "description": "Logout successful",
