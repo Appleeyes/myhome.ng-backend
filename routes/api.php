@@ -2,10 +2,11 @@
 
 use App\Constants\Roles;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Auth\AuthController;
+use Illuminate\Session\Middleware\StartSession;
+use App\Http\Controllers\Auth\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +37,11 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function () {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::post('/set-role', [AuthController::class, 'setRole']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::middleware([StartSession::class])->group(function () {
+        Route::post('/set-role', [AuthController::class, 'setRole']);
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login']);
+    });
     Route::post('/{user}/send-verification-email', [VerificationController::class, 'sendEmail']);
     Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);
 

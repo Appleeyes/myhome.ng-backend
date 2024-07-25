@@ -68,7 +68,6 @@ class AuthController extends Controller
      *              @OA\Property(property="phone_number", type="string", example="1234567890"),
      *              @OA\Property(property="password", type="string", example="password123"),
      *              @OA\Property(property="password_confirmation", type="string", example="password123"),
-     *              @OA\Property(property="user_id", type="integer", example=1),
      *          )
      *      ),
      *      @OA\Response(
@@ -103,7 +102,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'user registered successfully',
+            'message' => 'User registered successfully',
             'data' => $result,
         ], Response::HTTP_CREATED);
     }

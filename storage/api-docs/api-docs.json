@@ -97,10 +97,6 @@
                                     "password_confirmation": {
                                         "type": "string",
                                         "example": "password123"
-                                    },
-                                    "user_id": {
-                                        "type": "integer",
-                                        "example": 1
                                     }
                                 },
                                 "type": "object"
