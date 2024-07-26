@@ -68,7 +68,6 @@ class AuthController extends Controller
      *              @OA\Property(property="phone_number", type="string", example="1234567890"),
      *              @OA\Property(property="password", type="string", example="password123"),
      *              @OA\Property(property="password_confirmation", type="string", example="password123"),
-     *              @OA\Property(property="user_id", type="integer", example=1),
      *          )
      *      ),
      *      @OA\Response(
@@ -103,7 +102,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'user registered successfully',
+            'message' => 'User registered successfully',
             'data' => $result,
         ], Response::HTTP_CREATED);
     }
@@ -170,6 +169,28 @@ class AuthController extends Controller
             'message' => 'user authenticated successfully',
             'data' => $result,
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/logout",
+     *      tags={"Auth"},
+     *      summary="Logout a user",
+     *      description="Logout a user and revoke the access token",
+     *      operationId="userLogout",
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Logout successful",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Logout successful"),
+     *          ),
+     *      ),
+     * )
+     */
+    public function logout(Request $request)
+    {
+        return $this->authService->logout($request->user());
     }
 
     /**

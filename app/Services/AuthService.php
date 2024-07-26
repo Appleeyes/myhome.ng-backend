@@ -7,6 +7,7 @@ use App\Constants\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthService
@@ -29,20 +30,17 @@ class AuthService
         }
 
         $role = $request->input('role');
-        $user = User::create([
-            'role' => $role,
-        ]);
+        Session::put('role', $role);
 
         return response()->json([
             'message' => 'Role set successfully',
-            'user_id' => $user->id
+            'role' => $role
         ], Response::HTTP_OK);
     }
 
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -53,12 +51,21 @@ class AuthService
             return ['error' => $validator->errors()->first()];
         }
 
-        $user = User::find($request->user_id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->phone_number = $request->phone_number;
-        $user->save();
+        $role = Session::get('role', null);
+
+        if (!$role) {
+            return ['error' => 'Role not set.'];
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone_number' => $request->phone_number,
+            'role' => $role,
+        ]);
+
+        Session::forget('role');
 
         $token = $this->createToken($user);
 
@@ -88,11 +95,23 @@ class AuthService
             ];
         }
 
+        session()->forget('role');
+
         $token = $this->createToken($user);
 
         return [
             'user' => $user,
             'token' => $token,
         ];
+    }
+
+    public function logout($user)
+    {
+        if ($user) {
+            $user->token()->revoke();
+            return response()->json([
+                'message' => 'Logout successful',
+            ], Response::HTTP_OK);
+        }
     }
 }
