@@ -17,44 +17,18 @@ class AuthService
         return $user->createToken(config('tokens.user_token'))->accessToken;
     }
 
-    public function setRole(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'role' => 'required|string|in:tenant,landlord',
-        ]);
-
-        if ($validator->fails()){
-            return response()->json([
-                'error' => $validator->errors()->first()
-            ]);
-        }
-
-        $role = $request->input('role');
-        Session::put('role', $role);
-
-        return response()->json([
-            'message' => 'Role set successfully',
-            'role' => $role
-        ], Response::HTTP_OK);
-    }
-
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'phone_number' => 'required|string|max:20|unique:users'
+            'phone_number' => 'required|string|max:20|unique:users',
+            'role' => 'required|string|in:tenant,landlord'
         ]);
 
         if ($validator->fails()) {
             return ['error' => $validator->errors()->first()];
-        }
-
-        $role = Session::get('role', null);
-
-        if (!$role) {
-            return ['error' => 'Role not set.'];
         }
 
         $user = User::create([
@@ -62,10 +36,8 @@ class AuthService
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone_number' => $request->phone_number,
-            'role' => $role,
+            'role' => $request->role,
         ]);
-
-        Session::forget('role');
 
         $token = $this->createToken($user);
 
@@ -94,8 +66,6 @@ class AuthService
                 'errors' => ['Invalid credentials'],
             ];
         }
-
-        session()->forget('role');
 
         $token = $this->createToken($user);
 

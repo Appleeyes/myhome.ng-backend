@@ -6,64 +6,6 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/set-role": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Set the user role before registration",
-                "description": "Sets the user role before the user completes registration.",
-                "operationId": "setUserRole",
-                "parameters": [
-                    {
-                        "name": "role",
-                        "in": "query",
-                        "description": "Role of the user (user or Landlord)",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Role set successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Role set successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/register": {
             "post": {
                 "tags": [

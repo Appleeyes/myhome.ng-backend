@@ -40,11 +40,8 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function () {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::middleware([StartSession::class])->group(function () {
-        Route::post('/set-role', [AuthController::class, 'setRole']);
-        Route::post('/register', [AuthController::class, 'register']);
-        Route::post('/login', [AuthController::class, 'login']);
-    });
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
     Route::post('/{user}/send-verification-email', [VerificationController::class, 'sendEmail']);
     Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);
     Route::delete('/user/{user}', [AuthController::class, 'deleteUser']);
