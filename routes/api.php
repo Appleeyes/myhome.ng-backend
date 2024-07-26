@@ -27,8 +27,11 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function () {
     Route::middleware(['role:' . Roles::TENANT])->group(function () {
         Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
         Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
+        Route::get('/products/bookmarked', [ProductController::class, 'getBookmarkedProducts']);
         Route::get('/products/{productId}', [ProductController::class, 'getProductDetails']);
         Route::post('/contact-agent/{product}', [ChatController::class, 'startChat']);
+        Route::post('/products/{productId}/bookmark', [ProductController::class, 'toggleBookmark']);
+        
     });
 
     Route::middleware(['role:' . Roles::LANDLORD])->group(function () {

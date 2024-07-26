@@ -177,7 +177,8 @@ class AuthController extends Controller
      *      tags={"Auth"},
      *      summary="Logout a user",
      *      description="Logout a user and revoke the access token",
-     *      security={{"passport": {}}},
+     *      operationId="userLogout",
+     *      security={{"bearerAuth": {}}},
      *      @OA\Response(
      *          response=200,
      *          description="Logout successful",

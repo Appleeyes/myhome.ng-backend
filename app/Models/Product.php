@@ -53,4 +53,10 @@ class Product extends Model
         'parking_lot',
         'user_id',
     ];
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
 }

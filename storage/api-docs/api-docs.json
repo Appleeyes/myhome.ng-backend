@@ -269,7 +269,7 @@
                 ],
                 "summary": "Logout a user",
                 "description": "Logout a user and revoke the access token",
-                "operationId": "f833f463bbd322d353bd84c79e410b2a",
+                "operationId": "userLogout",
                 "responses": {
                     "200": {
                         "description": "Logout successful",
@@ -290,7 +290,7 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -1029,10 +1029,252 @@
                     }
                 ]
             }
+        },
+        "/api/v1/products/{productId}/bookmark": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Toggle bookmark for a product",
+                "description": "Add or remove a bookmark for the specified product.",
+                "operationId": "toggleBookmark",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID of the product to bookmark or unbookmark",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bookmark toggled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bookmark toggled successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, user not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/bookmarked": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all bookmarked products",
+                "description": "Retrieve a list of products that the user has bookmarked.",
+                "operationId": "getBookmarkedProducts",
+                "responses": {
+                    "200": {
+                        "description": "List of bookmarked products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bookmarked retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "product_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T23:20:58.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T23:20:58.000000Z"
+                                                    },
+                                                    "product": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "property_type": {
+                                                                "type": "string",
+                                                                "example": "Bungalow"
+                                                            },
+                                                            "price": {
+                                                                "type": "integer",
+                                                                "example": 59279927
+                                                            },
+                                                            "listing_type": {
+                                                                "type": "string",
+                                                                "example": "Gold Listing"
+                                                            },
+                                                            "listing_date": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-07-25T22:49:52.000000Z"
+                                                            },
+                                                            "recommended": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "popular": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "location": {
+                                                                "type": "string",
+                                                                "example": "Lekki Phase 1, Admirality way 1"
+                                                            },
+                                                            "image_path": {
+                                                                "type": "string",
+                                                                "example": "https://res.cloudinary.com/dv2lhfdnv/image/upload/v1720976294/myHome/l7c5weavuagtk0krdjum.png"
+                                                            },
+                                                            "erf_size": {
+                                                                "type": "integer",
+                                                                "example": 1239
+                                                            },
+                                                            "floor_size": {
+                                                                "type": "integer",
+                                                                "example": 42
+                                                            },
+                                                            "dues_and_levies": {
+                                                                "type": "integer",
+                                                                "example": 10000
+                                                            },
+                                                            "pet_allowed": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "bedrooms": {
+                                                                "type": "integer",
+                                                                "example": 3
+                                                            },
+                                                            "bathrooms": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "parking_lot": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "user_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-07-25T22:49:52.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-07-25T22:49:52.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, user not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
+            "Bookmark": {
+                "title": "Bookmark",
+                "description": "Bookmark model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "product_id": {
+                        "type": "integer",
+                        "example": 3
+                    }
+                },
+                "type": "object"
+            },
             "Chat": {
                 "title": "Chat",
                 "description": "Chat model",
