@@ -19,42 +19,6 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/v1/set-role",
-     *      tags={"Auth"},
-     *      summary="Set the user role before registration",
-     *      description="Sets the user role before the user completes registration.",
-     *      operationId="setUserRole",
-     *      @OA\Parameter(
-     *          name="role",
-     *          in="query",
-     *          required=true,
-     *          description="Role of the user (user or Landlord)",
-     *          @OA\Schema(type="string")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Role set successfully",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Role set successfully"),
-     *          ),
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Validation error",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(property="errors", type="object"),
-     *          ),
-     *      ),
-     * )
-     */
-    public function setRole(Request $request)
-    {
-        return $this->authService->setRole($request);
-    }
-
-    /**
-     * @OA\Post(
      *      path="/api/v1/register",
      *      tags={"Auth"},
      *      summary="Register a new user",
