@@ -16,6 +16,61 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
+     *      path="/api/v1/products",
+     *      tags={"Products"},
+     *      summary="Get all products",
+     *      description="Retrieve a list of all products.",
+     *      operationId="allProducts",
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Products retrieved successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Products retrieved successfully"),
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example=1),
+     *                      @OA\Property(property="property_type", type="string", example="Bungalow"),
+     *                      @OA\Property(property="price", type="integer", example=59279927),
+     *                      @OA\Property(property="listing_type", type="string", example="Gold Listing"),
+     *                      @OA\Property(property="listing_date", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="recommended", type="boolean", example=true),
+     *                      @OA\Property(property="popular", type="boolean", example=false),
+     *                      @OA\Property(property="location", type="string", example="Lekki Phase 1, Admirality way 1"),
+     *                      @OA\Property(property="image_path", type="string", example="https://example.com/image.jpg"),
+     *                      @OA\Property(property="erf_size", type="integer", example=1239),
+     *                      @OA\Property(property="floor_size", type="integer", example=42),
+     *                      @OA\Property(property="dues_and_levies", type="integer", example=10000),
+     *                      @OA\Property(property="pet_allowed", type="boolean", example=true),
+     *                      @OA\Property(property="bedrooms", type="integer", example=3),
+     *                      @OA\Property(property="bathrooms", type="integer", example=1),
+     *                      @OA\Property(property="parking_lot", type="integer", example=2),
+     *                      @OA\Property(property="user_id", type="integer", example=1),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="isBookmarked", type="boolean", example=true),
+     *                  )
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="No product found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="No product found"),
+     *          ),
+     *      ),
+     * )
+     */
+    public function getAllProducts()
+    {
+        return $this->productService->getAllProducts();
+    }
+
+    /**
+     * @OA\Get(
      *      path="/api/v1/products/recommended",
      *      tags={"Products"},
      *      summary="Get recommended products",
@@ -28,7 +83,31 @@ class ProductController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="Recommended products retrieved successfully"),
-     *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Product")),
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example=1),
+     *                      @OA\Property(property="property_type", type="string", example="Bungalow"),
+     *                      @OA\Property(property="price", type="integer", example=59279927),
+     *                      @OA\Property(property="listing_type", type="string", example="Gold Listing"),
+     *                      @OA\Property(property="listing_date", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="recommended", type="boolean", example=true),
+     *                      @OA\Property(property="popular", type="boolean", example=false),
+     *                      @OA\Property(property="location", type="string", example="Lekki Phase 1, Admirality way 1"),
+     *                      @OA\Property(property="image_path", type="string", example="https://example.com/image.jpg"),
+     *                      @OA\Property(property="erf_size", type="integer", example=1239),
+     *                      @OA\Property(property="floor_size", type="integer", example=42),
+     *                      @OA\Property(property="dues_and_levies", type="integer", example=10000),
+     *                      @OA\Property(property="pet_allowed", type="boolean", example=true),
+     *                      @OA\Property(property="bedrooms", type="integer", example=3),
+     *                      @OA\Property(property="bathrooms", type="integer", example=1),
+     *                      @OA\Property(property="parking_lot", type="integer", example=2),
+     *                      @OA\Property(property="user_id", type="integer", example=1),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="isBookmarked", type="boolean", example=true),
+     *                  )
+     *              ),
      *          ),
      *      ),
      *      @OA\Response(
@@ -59,7 +138,31 @@ class ProductController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="Popular products retrieved successfully"),
-     *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Product")),
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example=1),
+     *                      @OA\Property(property="property_type", type="string", example="Bungalow"),
+     *                      @OA\Property(property="price", type="integer", example=59279927),
+     *                      @OA\Property(property="listing_type", type="string", example="Gold Listing"),
+     *                      @OA\Property(property="listing_date", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="recommended", type="boolean", example=true),
+     *                      @OA\Property(property="popular", type="boolean", example=false),
+     *                      @OA\Property(property="location", type="string", example="Lekki Phase 1, Admirality way 1"),
+     *                      @OA\Property(property="image_path", type="string", example="https://example.com/image.jpg"),
+     *                      @OA\Property(property="erf_size", type="integer", example=1239),
+     *                      @OA\Property(property="floor_size", type="integer", example=42),
+     *                      @OA\Property(property="dues_and_levies", type="integer", example=10000),
+     *                      @OA\Property(property="pet_allowed", type="boolean", example=true),
+     *                      @OA\Property(property="bedrooms", type="integer", example=3),
+     *                      @OA\Property(property="bathrooms", type="integer", example=1),
+     *                      @OA\Property(property="parking_lot", type="integer", example=2),
+     *                      @OA\Property(property="user_id", type="integer", example=1),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", example="2024-07-25T22:49:52"),
+     *                      @OA\Property(property="isBookmarked", type="boolean", example=true),
+     *                  )
+     *              ),
      *          ),
      *      ),
      *      @OA\Response(

@@ -3,6 +3,7 @@
 use App\Constants\Roles;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Session\Middleware\StartSession;
@@ -23,8 +24,10 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function () {
     Route::get('/chats', [ChatController::class, 'getChats']);
     Route::post('/chats/{chat}/messages', [ChatController::class, 'sendMessage']);
     Route::get('/chats/{chatId}', [ChatController::class, 'getChatById']);
+    Route::get('/user', [UserController::class, 'getUserDetails']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::middleware(['role:' . Roles::TENANT])->group(function () {
+        Route::get('/products', [ProductController::class, 'getAllProducts']);
         Route::get('/products/recommended', [ProductController::class, 'getRecommendedProduct']);
         Route::get('/products/popular', [ProductController::class, 'getPopularProduct']);
         Route::get('/products/bookmarked', [ProductController::class, 'getBookmarkedProducts']);

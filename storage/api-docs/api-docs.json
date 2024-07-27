@@ -39,6 +39,10 @@
                                     "password_confirmation": {
                                         "type": "string",
                                         "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "tenant"
                                     }
                                 },
                                 "type": "object"
@@ -795,6 +799,146 @@
                 ]
             }
         },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all products",
+                "description": "Retrieve a list of all products.",
+                "operationId": "allProducts",
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Products retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "property_type": {
+                                                        "type": "string",
+                                                        "example": "Bungalow"
+                                                    },
+                                                    "price": {
+                                                        "type": "integer",
+                                                        "example": 59279927
+                                                    },
+                                                    "listing_type": {
+                                                        "type": "string",
+                                                        "example": "Gold Listing"
+                                                    },
+                                                    "listing_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "recommended": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "popular": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "location": {
+                                                        "type": "string",
+                                                        "example": "Lekki Phase 1, Admirality way 1"
+                                                    },
+                                                    "image_path": {
+                                                        "type": "string",
+                                                        "example": "https://example.com/image.jpg"
+                                                    },
+                                                    "erf_size": {
+                                                        "type": "integer",
+                                                        "example": 1239
+                                                    },
+                                                    "floor_size": {
+                                                        "type": "integer",
+                                                        "example": 42
+                                                    },
+                                                    "dues_and_levies": {
+                                                        "type": "integer",
+                                                        "example": 10000
+                                                    },
+                                                    "pet_allowed": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "bedrooms": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "bathrooms": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "parking_lot": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "isBookmarked": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No product found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No product found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/products/recommended": {
             "get": {
                 "tags": [
@@ -817,7 +961,92 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Product"
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "property_type": {
+                                                        "type": "string",
+                                                        "example": "Bungalow"
+                                                    },
+                                                    "price": {
+                                                        "type": "integer",
+                                                        "example": 59279927
+                                                    },
+                                                    "listing_type": {
+                                                        "type": "string",
+                                                        "example": "Gold Listing"
+                                                    },
+                                                    "listing_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "recommended": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "popular": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "location": {
+                                                        "type": "string",
+                                                        "example": "Lekki Phase 1, Admirality way 1"
+                                                    },
+                                                    "image_path": {
+                                                        "type": "string",
+                                                        "example": "https://example.com/image.jpg"
+                                                    },
+                                                    "erf_size": {
+                                                        "type": "integer",
+                                                        "example": 1239
+                                                    },
+                                                    "floor_size": {
+                                                        "type": "integer",
+                                                        "example": 42
+                                                    },
+                                                    "dues_and_levies": {
+                                                        "type": "integer",
+                                                        "example": 10000
+                                                    },
+                                                    "pet_allowed": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "bedrooms": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "bathrooms": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "parking_lot": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "isBookmarked": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
                                             }
                                         }
                                     },
@@ -872,7 +1101,92 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Product"
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "property_type": {
+                                                        "type": "string",
+                                                        "example": "Bungalow"
+                                                    },
+                                                    "price": {
+                                                        "type": "integer",
+                                                        "example": 59279927
+                                                    },
+                                                    "listing_type": {
+                                                        "type": "string",
+                                                        "example": "Gold Listing"
+                                                    },
+                                                    "listing_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "recommended": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "popular": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "location": {
+                                                        "type": "string",
+                                                        "example": "Lekki Phase 1, Admirality way 1"
+                                                    },
+                                                    "image_path": {
+                                                        "type": "string",
+                                                        "example": "https://example.com/image.jpg"
+                                                    },
+                                                    "erf_size": {
+                                                        "type": "integer",
+                                                        "example": 1239
+                                                    },
+                                                    "floor_size": {
+                                                        "type": "integer",
+                                                        "example": 42
+                                                    },
+                                                    "dues_and_levies": {
+                                                        "type": "integer",
+                                                        "example": 10000
+                                                    },
+                                                    "pet_allowed": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "bedrooms": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "bathrooms": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "parking_lot": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-25T22:49:52"
+                                                    },
+                                                    "isBookmarked": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
                                             }
                                         }
                                     },
@@ -1180,6 +1494,58 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/details": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user details",
+                "description": "Retrieve the details of the authenticated user.",
+                "operationId": "getUserDetails",
+                "responses": {
+                    "200": {
+                        "description": "User details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User details retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found"
                                         }
                                     },
                                     "type": "object"
