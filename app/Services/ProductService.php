@@ -10,8 +10,20 @@ class ProductService
 {
     public function getRecommendedProduct()
     {
-        $recommendedProduct = Product::where('recommended', true)->get();
-        if(!$recommendedProduct){
+        $user = auth()->user();
+
+        $recommendedProducts = Product::where('recommended', true)
+        ->with(['bookmarks' => function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])
+        ->get()
+        ->map(function ($product) {
+            $product->isBookmarked = $product->bookmarks->isNotEmpty();
+            unset($product->bookmarks);
+            return $product;
+        });
+
+        if (!$recommendedProducts) {
             return response()->json([
                 'message' => 'No recommended product found'
             ], Response::HTTP_NOT_FOUND);
@@ -19,14 +31,26 @@ class ProductService
 
         return response()->json([
             'message' => 'Recommended products retrieved successfully',
-            'data' => $recommendedProduct
+            'data' => $recommendedProducts
         ], Response::HTTP_OK);
     }
 
     public function getPopularProduct()
     {
-        $popularProduct = Product::where('popular', true)->get();
-        if(!$popularProduct){
+        $user = auth()->user();
+
+        $popularProducts = Product::where('popular', true)
+        ->with(['bookmarks' => function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])
+        ->get()
+        ->map(function ($product) {
+            $product->isBookmarked = $product->bookmarks->isNotEmpty();
+            unset($product->bookmarks);
+            return $product;
+        });
+
+        if (!$popularProducts) {
             return response()->json([
                 'message' => 'No popular product found'
             ], Response::HTTP_NOT_FOUND);
@@ -34,7 +58,7 @@ class ProductService
 
         return response()->json([
             'message' => 'Popular product retrieved successfully',
-            'data' => $popularProduct
+            'data' => $popularProducts
         ], Response::HTTP_OK);
     }
 

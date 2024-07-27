@@ -39,6 +39,10 @@
                                     "password_confirmation": {
                                         "type": "string",
                                         "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "tenant"
                                     }
                                 },
                                 "type": "object"
