@@ -8,6 +8,29 @@ use Illuminate\Http\Response;
 
 class ProductService
 {
+    public function getAllProducts()
+    {
+        $user = auth()->user();
+
+        $products = Product::with(['bookmarks' => function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])->get()->map(function ($product) {
+            $product->isBookmarked = $product->bookmarks->isNotEmpty();
+            return $product;
+        });
+
+        if (!$products) {
+            return response()->json([
+                'message' => 'No product found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'message' => 'Products retrieved successfully',
+            'data' => $products
+        ], Response::HTTP_OK);
+    }
+
     public function getRecommendedProduct()
     {
         $user = auth()->user();
