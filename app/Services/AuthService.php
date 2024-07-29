@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Constants\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthService
@@ -24,7 +22,7 @@ class AuthService
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone_number' => 'required|string|max:20|unique:users',
-            'role' => 'required|string|in:tenant,landlord'
+            'role' => 'required|string|in:tenant,landlord',
         ]);
 
         if ($validator->fails()) {
@@ -37,6 +35,7 @@ class AuthService
             'password' => Hash::make($request->password),
             'phone_number' => $request->phone_number,
             'role' => $request->role,
+            'image' => "https://res.cloudinary.com/dv2lhfdnv/image/upload/v1722264634/myHome/x5m1pifyj9aavfreektr.png"
         ]);
 
         $token = $this->createToken($user);
